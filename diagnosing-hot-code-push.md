@@ -84,6 +84,8 @@ If you notice HCP works in production but not when you test locally, you may nee
 
 If none of that solved your issues and you’d like to dive deeper, here’s some tips to get you started.
 
+When you find the issue, I'd love to hear! There are probably others who could benefit from your findings.
+
 ## Where does hot code push live?
 
 Hot code push is included in `meteor-base` through a web of [official meteor packages](https://github.com/meteor/meteor/tree/devel/packages), most importantly [`reload`](https://github.com/meteor/meteor/tree/devel/packages/reload) and [`autoupdate`](https://github.com/meteor/meteor/tree/devel/packages/autoupdate).
@@ -212,6 +214,6 @@ Meteor will start using the local version instead of the official one. But note 
 
 ## Good luck!
 
-Did it help? Are you stuck? I'd love to hear.
+Did it help? Are you stuck? Do you know anything I don't? I'd love to hear.
 
 Bart Sturm, co-founder & head of engineering at [TutorMundi](https://tutormundi.com/)
