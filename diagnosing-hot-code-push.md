@@ -8,11 +8,11 @@ If you get stuck, feel free to get in touch.
 
 ## Override compatability versions
 
-Did the app suddenly stop getting new code after you changed cordova version or plugins?
+Did the app suddenly stop getting new code after you updated meteor, cordova, or changed plugins?
 
 The client may log: `Skipping downloading new version because the Cordova platform version or plugin versions have changed and are potentially incompatible`.
 
-Cordova and its plugins cannot be updated through Hot Code Push. So Meteor by default disables Hot Code Push to app versions that have different versions than the server. This avoids crashing a user’s app, for example, when new JS calls a plugin that his app version doesn’t yet have.
+Meteor, Cordova and plugins cannot be updated through Hot Code Push. So Meteor by default disables Hot Code Push to app versions that have different versions than the server. This avoids crashing a user’s app, for example, when new JS calls a plugin that his app version doesn’t yet have.
 
 You can [override this behavior](https://guide.meteor.com/cordova#controlling-compatibility-version). Just make sure you deal with potentially incompatible versions in your JS instead.
 
@@ -22,7 +22,7 @@ Explained pretty clearly in the [QA document](https://github.com/meteor/meteor/b
 
 If adding this variable when you `run` or `deploy` causes HCP to suddenly work, it means for some reason, your server thinks the client code and assets didn’t actually change.
 
-You can set it for every deploy and change its value every time you want to update your clients. Or you can debug further, and try to figure out why [WebApp.calculateClientHash](https://github.com/meteor/meteor/blob/devel/packages/webapp/webapp_server.js#L267) isn’t generating new hashes for your new code.
+You can set a new one for every deploy to update all your mobile and web clients (or keep the same one, to not update them). Or you can debug further, and try to figure out why [WebApp.calculateClientHash](https://github.com/meteor/meteor/blob/devel/packages/webapp/webapp_server.js#L267) isn’t generating new hashes for your new code.
 
 ## Cordova doesn’t hot reload CSS separately
 
