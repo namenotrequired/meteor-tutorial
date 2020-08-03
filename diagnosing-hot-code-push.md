@@ -26,19 +26,19 @@ You can set a new one for every deploy to update all your mobile and web clients
 
 ## Cordova doesn’t hot reload CSS separately
 
-Are you seeing your web app incorporating changes without reload, yet your cordova app reloads each time?
+Are you seeing your web app incorporate changes without reload, yet your cordova app reloads each time?
 
 For CSS-only changes, this is the expected behaviour. Browsers update the layout without reload, but in cordova, [any change reloads the whole app](https://docs.meteor.com/packages/autoupdate.html#Cordova-Client).
 
-I don't know of a way to change this without making big changes to the underlying packages (which I'll help with below).
+In case you want to implement soft CSS update for Cordova, see below [how to edit the source](#how-to-edit-the-source).
 
 ## Outdated custom reload code and packages
 
-There are [several reload packages](https://atmospherejs.com/?q=reload), and maybe your app includes some custom reload code. Of course, these may have bugs.
+There are [several reload packages](https://atmospherejs.com/?q=reload), and maybe your app includes some custom reload code. Of course, these may have bugs or be outdated.
 
-Specifically, when you push an update, does the app reload but use the old code anyways?
+In particular, when you push an update, does the app reload but use the old code anyways? Probably, the code hasn't been updated to work with Meteor 1.8.1 or later. 
 
-Probably, the code hasn't been updated to work with Meteor 1.8.1 or later. [Meteor recommends](https://docs.meteor.com/changelog.html#v18120190403) you call `WebAppLocalServer.switchToPendingVersion` before forcing a browser reload.
+[Meteor recommends](https://docs.meteor.com/changelog.html#v18120190403) you call `WebAppLocalServer.switchToPendingVersion` before forcing a browser reload.
 
 Alternatively, use the built-in behavior to reload. Instead of, say, `window.location.reload()`, call the `retry` function passed to the `Reload._onMigrate()` callback. For example:
 
@@ -53,6 +53,8 @@ Reload._onMigrate((retry) => {
 });
 ```
 
+If you use a package that is no longer compatible, consider forking it or opening a PR to with the above changes. Alternatively, you can switch to a compatible one such as [`quave:reloader`](https://github.com/quavedev/reloader) (maintained by Meteor's Developer Evangelist Filipe Névola).
+
 ## Avoid hash fragments
 
 Cordova doesn’t show the URL bar, but the user is still on some URL or other, which may have a hash (`#`). HCP [works better if it doesn't](https://github.com/meteor/meteor/blob/devel/packages/reload/reload.js#L224).
@@ -61,7 +63,7 @@ If you can, remove the hash before the reload.
 
 ## Avoid big files not included in the app
 
-While [remotely debugging an android app](https://developers.google.com/web/tools/chrome-devtools/remote-debugging#remote-debugging-on-android-with-chrome-devtools), I was seeing HCP fail with errors like:
+In the [client side logs](https://guide.meteor.com/cordova#logging-and-remote-debugging), you may see HCP fail with errors like:
 
 ```
 Error: Error downloading asset: /
@@ -70,11 +72,9 @@ Error: Error downloading asset: /
   at <anonymous>:1:9
 ```
 
-It turns out that [cordova-plugin-meteor-webapp](https://github.com/meteor/cordova-plugin-meteor-webapp) threw this error because some files in `public` were too big. Downloading would fail depending on connection speed and available space.
+This error from [cordova-plugin-meteor-webapp](https://github.com/meteor/cordova-plugin-meteor-webapp) may be caused by big files in the `public` folder. Downloading these can fail depending on connection speed, and available space on the device.
 
-Does HCP start working if you delete the content of your `public` folder? Then this may be your issue.
-
-I ran [`du -a public | sort -n -r | head -n 20`](https://www.cyberciti.biz/faq/linux-find-largest-file-in-directory-recursively-using-find-du/) to find the biggest files. In my case, these were used only on rarely accessed routes, so I could safely move them to a CDN. This solved the issue.
+You could run [`$ du -a public | sort -n -r | head -n 20`](https://www.cyberciti.biz/faq/linux-find-largest-file-in-directory-recursively-using-find-du/) to find the 20 biggest files and their sizes. Consider serving them from an external storage service or CDN instead. In this case, they are only downloaded when really needed, and can fail downloading safely without blocking HCP.
 
 ## If it is only broken locally
 
@@ -138,7 +138,7 @@ const { ready, inactive } = _.chain(Meteor)
 console.log(‘ready:’, ready);
 console.log(‘inactive:’, inactive);
 ```
-Or, to log `ready` as soon as the subscription changes:
+Or, to log the value of `ready` each time the subscription changes:
 
 ```js
 const hcpSub = _.chain(Meteor)
@@ -176,7 +176,7 @@ Reload._onMigrate(() => {
 });
 ```
 
-- To know if your `startup` was the result of a HCP reload or not, we can take advantage of the fact that `Session`s (and `ReactiveDict`s) are preserved.
+- To know if your `startup` was the result of a HCP reload or not, we can take advantage of the fact that `Session`s (like `ReactiveDict`s) are preserved.
 
 ```js
 Meteor.startup(() => {
