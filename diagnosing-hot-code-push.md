@@ -8,7 +8,7 @@ If you get stuck, feel free to get in touch.
 
 ## Override compatability versions
 
-Did the app suddenly stop getting new code after you updated meteor, cordova, or changed plugins?
+Did the app suddenly stop getting new code after you updated meteor, or you changed plugins?
 
 The client may log: `Skipping downloading new version because the Cordova platform version or plugin versions have changed and are potentially incompatible`.
 
