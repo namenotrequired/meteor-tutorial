@@ -2,9 +2,18 @@
 
 Meteor’s [Hot Code Push](https://guide.meteor.com/cordova#hot-code-push) is a [great power](https://blog.meteor.com/meteor-hot-code-push-with-great-power-comes-great-responsibility-7e9e8f7312d5), but it doesn’t always work seamlessly.
 
-So your `.meteor/versions` file includes `hot-code-push`, yet your cordova app is not getting the updates you’re deploying? Here’s some things you can try.
+Is your Meteor Cordova app not getting the updates you’re deploying? Here’s some things you can try.
 
 If you get stuck, feel free to get in touch.
+
+## Prerequisites
+
+Make sure that you have:
+
+- an Android and/or iOS mobile app based on Meteor's [Cordova integration](https://guide.meteor.com/cordova#cordova-integration-in-meteor)
+- the package `hot-code-push` listed in your `.meteor/versions` file
+- locally: make sure your test device and development device are [on the same network](https://guide.meteor.com/cordova#connecting-to-the-server)
+- in production: make sure the `--server` flag of your `meteor build` command points to the same place as your `ROOT_URL` environment variable (or, on Galaxy, the *site* in `meteor deploy *site*`). [See details](https://guide.meteor.com/cordova#configuring-server-for-hot-code-push)
 
 ## Override compatability versions
 
