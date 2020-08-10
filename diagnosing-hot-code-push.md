@@ -1,4 +1,6 @@
-# Diagnosing Hot Code Push issues in Meteor Cordova
+# Moved to https://guide.meteor.com/hot-code-push.html
+
+<!--# Diagnosing Hot Code Push issues in Meteor Cordova
 
 Meteor’s [Hot Code Push](https://guide.meteor.com/cordova#hot-code-push) is a [great power](https://blog.meteor.com/meteor-hot-code-push-with-great-power-comes-great-responsibility-7e9e8f7312d5), but it doesn’t always work seamlessly.
 
@@ -226,3 +228,4 @@ Meteor will start using the local version instead of the official one. But note 
 Did it help? Are you stuck? Do you know anything I don't? I'd love to hear.
 
 Bart Sturm, co-founder & head of engineering at [TutorMundi](https://tutormundi.com/)
+-->
